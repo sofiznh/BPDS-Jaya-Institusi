@@ -51,7 +51,62 @@ Data yang digunakan bersumber dari data institusi [Students' Performance data](h
    ```
 
 ## Business Dashboard
-Jelaskan tentang business dashboard yang telah dibuat. Jika ada, sertakan juga link untuk mengakses dashboard tersebut.
+
+[Jaya Jaya Institute Students Dashboard](https://public.tableau.com/views/JayaJayaInstitute_17507480819360/Dashboard1?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link 'Tableau Public- Jaya Jaya Institute Students Dashboard'), didesain sefektif mungkin untuk memberikan insight bagi para pengajar dan pihak internal institusi mengenai masalah tingkat siswa dropout yang mencapai lebih dari 30%.
+
+<figure>
+  <img src="sofiznh-dashboard.png" alt="Dashboard" width="1000"/>
+</figure>
+
+Dashboard ini dirancang berdasarkan hasil eksplorasi data serta validasi tingkat kepentingan fitur menggunakan model Random Forest, yang dilengkapi dengan analisis interpretabilitas melalui SHAP values. Seluruh variabel yang ditampilkan pada visualisasi merupakan faktor-faktor yang secara signifikan berkontribusi terhadap prediksi siswa yang berpotensi dropout, sebagaimana ditunjukkan oleh hasil model dan eksplorasi data.
+
+### Insight Visualisasi pada Dashboard
+
+#### Jumlah dan Proporsi Mahasiswa
+
+1. Total Mahasiswa: 4.424 orang.
+2. Proporsi Status:
+   * Lulus (Graduate): Mayoritas mahasiswa.
+   * Dropout: Cukup signifikan.
+   * Masih Aktif (Enrolled): Sebagian kecil populasi.
+
+#### Status Pembayaran UKT (Tuition Fees)
+
+* Mahasiswa yang menunda pembayaran UKT memiliki kecenderungan lebih tinggi untuk mengalami dropout.
+* Sementara itu, sebagian besar mahasiswa yang berhasil lulus tercatat melakukan pembayaran UKT secara tepat waktu.
+
+#### Beasiswa
+
+* Sebagian besar kasus dropout terjadi pada mahasiswa yang tidak menerima beasiswa.
+* Sebaliknya, mahasiswa penerima beasiswa menunjukkan kecenderungan lebih tinggi untuk menyelesaikan studi mereka.
+
+#### Performa Akademik
+
+* Mahasiswa yang mengalami dropout memiliki rata-rata jumlah mata kuliah yang disetujui pada semester 1 dan 2 lebih rendah dibandingkan dengan mereka yang berhasil lulus.
+* Hal ini mengindikasikan bahwa performa akademik yang rendah di awal masa studi merupakan indikator penting terhadap potensi terjadinya dropout.
+
+#### Umur Saat Masuk Kuliah
+
+* Mahasiswa dengan usia lebih muda (sekitar 17–22 tahun) lebih cenderung berhasil lulus.
+* Dropout lebih banyak terjadi pada mahasiswa usia lebih tua saat mulai kuliah, menunjukkan potensi tantangan adaptasi atau beban luar kampus.
+
+Berdasarkan **SHAP summary plot** berikut:
+
+<figure>
+  <img src="shap_plot.png" alt="SHAP" width="400"/>
+</figure>
+
+variabel yang paling berpengaruh terhadap prediksi **dropout mahasiswa**:
+
+| Rank | Fitur                                     | Insight SHAP Value                                                                   |
+| ---- | ----------------------------------------- | ------------------------------------------------------------------------------------ |
+| 1    | **Curricular\_units\_2nd\_sem\_approved** | Makin sedikit mata kuliah yang disetujui di semester 2, makin tinggi risiko dropout. |
+| 2    | **Curricular\_units\_1st\_sem\_approved** | Performa awal (semester 1) sangat menentukan kelulusan.                              |
+| 3    | **Curricular\_units\_2nd\_sem\_grade**    | Nilai semester 2 yang rendah meningkatkan risiko dropout.                            |
+| 4    | **Tuition\_fees\_up\_to\_date**           | Mahasiswa yang menunggak UKT lebih berpotensi dropout.                               |
+| 5    | **Curricular\_units\_1st\_sem\_grade**    | Nilai rendah di semester awal jadi sinyal potensi tidak lanjut studi.                |
+| 6    | **Age\_at\_enrollment**                   | Usia masuk yang lebih tinggi berkorelasi dengan kemungkinan dropout lebih tinggi.    |
+| 7    | **Scholarship\_holder**                   | Pemegang beasiswa lebih jarang dropout.                            
 
 ## Menjalankan Sistem Machine Learning
 
