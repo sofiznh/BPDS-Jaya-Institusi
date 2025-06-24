@@ -1,8 +1,6 @@
 import pandas as pd
 import streamlit as st
 import joblib
-import io
-import base64
 from sklearn.preprocessing import MinMaxScaler
 
 # --- Inisialisasi Session ---
