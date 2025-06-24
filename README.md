@@ -118,7 +118,7 @@ Untuk menjalankan sistem secara lokal, cukup jalankan perintah berikut di Termin
 
 **To run the Streamlit prediction:**
 ```bash
-streamlit run streamlit_app.py
+streamlit run app.py
 ```
 
 And to stop the streamlit application program by `ctrl + c`. 
