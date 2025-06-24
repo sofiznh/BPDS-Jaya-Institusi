@@ -125,7 +125,7 @@ And to stop the streamlit application program by `ctrl + c`.
 
 ### 2. Mengakses Streamlit Cloud
 
-Apabila ingin mengakses sistem secara langsung yang sudah di-deploy ke Streamlit Cloud, dapat melalui tautan [berikut ini]().
+Apabila ingin mengakses sistem secara langsung yang sudah di-deploy ke Streamlit Cloud, dapat melalui tautan [berikut ini](https://sofiznh-bpds-jaya-institusi.streamlit.app/).
 
 ## Conclusion
 
