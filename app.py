@@ -1,35 +1,49 @@
 import pandas as pd
 import streamlit as st
 import joblib
-from sklearn.preprocessing import MinMaxScaler
 import io
+import base64
+from sklearn.preprocessing import MinMaxScaler
 
-buffer = io.BytesIO()
-
-# Session state to collect multiple students
+# --- Inisialisasi Session ---
 def init_session():
     if "students_data" not in st.session_state:
         st.session_state.students_data = []
 
+# --- Preprocessing Data ---
 def data_preprocessing(data_input, single_data, n):
     df = pd.read_csv('data_filtered.csv').drop(columns=['Status'], axis=1)
     df = pd.concat([data_input, df])
     df = MinMaxScaler().fit_transform(df)
     return df[[n]] if single_data else df[0:n]
 
+# --- Prediksi Menggunakan Model ---
 def model_predict(df):
     model = joblib.load('Hasil Pemodelan/Model_Random_Forest.pkl')
     return model.predict(df)
 
+# --- Warna Berdasarkan Prediksi ---
 def color_mapping(value):
     return f"background-color: {'#d4edda' if value == 'Graduate' else '#f8d7da'}; color: {'green' if value == 'Graduate' else 'red'}"
 
+# --- Aplikasi Utama ---
 def main():
     st.set_page_config(page_title='Dropout Predictor', layout='wide')
     st.title('🎓 Jaya Jaya Institute - Dropout Risk Predictor')
     st.markdown('---')
+
+    # Langkah Penggunaan
+    st.markdown("### 📘 Langkah Penggunaan")
+    st.markdown("""
+    1. **Isi variabel mahasiswa** pada kolom-kolom input yang tersedia.  
+    2. Klik **\"➕ Add Student\"** untuk menambahkan data mahasiswa ke daftar prediksi.  
+    3. Klik **\"🔍 Predict All\"** untuk menjalankan prediksi terhadap semua data mahasiswa yang telah ditambahkan.  
+    4. **Hasil prediksi** akan ditampilkan dan dapat diunduh jika diperlukan.
+    """)
+
     init_session()
 
+    # --- Mapping ---
     gender_mapping = {'Male': 1, 'Female': 0}
     marital_status_mapping = {
         'Single': 1, 'Married': 2, 'Widower': 3, 'Divorced': 4,
@@ -50,6 +64,7 @@ def main():
         'Change of Institution/Course': 51, 'Change of Institution/Course (International)': 57,
     }
 
+    # --- Input Form ---
     st.header("🔎 Input Data for One Student")
     with st.form("single_form"):
         col1, col2, col3 = st.columns(3)
@@ -96,6 +111,7 @@ def main():
             ])
             st.success("Student added to batch list.")
 
+    # --- Tabel & Prediksi ---
     if st.session_state.students_data:
         st.subheader("📋 Current Student Data")
         columns = [
@@ -115,8 +131,18 @@ def main():
             outputs = model_predict(data_input)
             statuses = ['Graduate' if pred == 1 else 'Dropout' for pred in outputs]
             df['Prediction Result'] = statuses
+
             st.subheader("🔮 Prediction Results")
             st.dataframe(df.style.applymap(color_mapping, subset=['Prediction Result']))
+
+            # Tombol Unduh Hasil
+            csv = df.to_csv(index=False).encode()
+            st.download_button(
+                label="📥 Unduh Hasil Prediksi",
+                data=csv,
+                file_name='hasil_prediksi_dropout.csv',
+                mime='text/csv'
+            )
 
 if __name__ == '__main__':
     main()
